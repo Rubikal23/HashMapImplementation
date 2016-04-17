@@ -1,92 +1,90 @@
-import java.lang.reflect.Array;
-
 public class HashMap<E,E1> {
 	
-	private int [] key ;
+	private E [] key ;
 	private E1 [] value;
-	Class<E> type1;
-	Class<E1> type2 ;
-
+	int size = 10000;
 	
 //	private static int index = -1;
 	
 	@SuppressWarnings("unchecked")
 	public HashMap()
 	{
-		key = new int[Integer.MAX_VALUE];
-		value = (E1[])Array.newInstance(type2, Integer.MAX_VALUE);
+		key = (E[]) new Object[size];
+		value = (E1[]) new Object[size];
 	}
 	
 
-	public E1 get(int key)
+	public E1 get(E key)
 	{
-		int i = key;
+		int index = getIndexValue(key);
 		int count = 0;
 		
-		if(this.key[i] == key)
-			return (E1)this.value[i];
+	
+		if(this.key[index] == key)
+			return (E1)this.value[index];
 		
-		while(this.key[i] != key)
-		{
-			i++;
-			count++;
-			if(i == Integer.MAX_VALUE)
-				i = 0;
-			if(count == Integer.MAX_VALUE - 1)
-				return null;
+		else{
+			while(this.key[index] != key)
+			{
+				index++;count++;
+			
+				if(index == size)
+					index = 0;
+				if(count == size - 1)
+					return null;
+			}
+		
+			return (E1)this.value[index];
 		}
 		
-		return (E1)this.value[i];
-		
 	}
 	
-	public E1 get(String key)
-	{
-		return null;
-		
-	}
 
-	/*public Object get(Object key)
+	public void put(E key, E1 value)
 	{
-		int i = this.key.indexOf(key);
-	
-		if(i != -1)
-			return this.value.get(i);
-			
-		return null;
-	}*/
-	
-	public void put(int key, E1 value)
-	{
-		int i = key;
+		int index = getIndexValue(key);
 		
 		if(get(key) == null){
-			
-			if(this.key[i] == 0){
-				this.key[i] = key;
-				this.value[i] = value;
+			if(this.key[index] == null){
+				
+				this.key[index] = key;
+				this.value[index] = value;
 			}
 			else{
-				while(this.key[i] != 0)
+				while(this.key[index] != null)
 				{
-					i++;
-					if(i == Integer.MAX_VALUE-1)
-						i = 0;
+					index++;
+					if(index == size)
+						index = 0;
 				}
-				this.key[i] = key;
-				this.value[i] = value;
-				
-			}
-		}
 			
+				this.key[index] = key;
+				this.value[index] = value;
+			}
+		}	
+		else System.out.println("Key already exist.");
 	}
 	
-	
-	/*public void put(Object key, Object value)
+	public int getIndexValue(E key)
 	{
-		this.key.add(key);
-		this.value.add(value); 
-	}*/
+		int index = 0;
+		
+		if(key instanceof Integer){
+			//System.out.println("Integer " + key);
+			index = (int) key;
+		}
+		else if (key instanceof String)
+		{
+			int sum = 0;
+			char [] ch = ((String) key).toCharArray();	
+			for(int i  = 0 ; i < ch.length; i++)
+				sum += (int)ch[i] - 64;
+			
+			index = sum;
+			//System.out.println("String "+ index);
+		}
+		return index;
+	}
 	
 	public Object remove(Object key)
 	{

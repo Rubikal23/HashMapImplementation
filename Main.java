@@ -3,16 +3,19 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		HashMap<Object> h = new HashMap<Object>();
+		HashMap<String,Integer> h = new HashMap<String,Integer>();
+			
+		h.put("one",1);
+		h.put("Two",2);
+		h.put("Three",3);
+		h.put("Four",4);
+		h.put("une",1);
 		
-		h.put(1, "One");
-		h.put(2, "Two");
-		h.put(3, "Three");
-		h.put(4, "Four");
+		System.out.println(h.get("Two"));
+		System.out.println(h.get("one"));
+		System.out.println(h.get("une"));
+		System.out.println(h.get("Four"));
 		
-		System.out.println(h.get(2));
-		System.out.println(h.remove(3));
-		System.out.println(h.get(4));
 	}
 
 }
